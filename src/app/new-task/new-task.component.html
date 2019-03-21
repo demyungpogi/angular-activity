@@ -1,0 +1,12 @@
+<form action="" id="add_task_form" (submit)="submitNewTask()">
+  <h2>Add Task</h2>
+  <p>{{ newtask | json}}</p>
+  <label for="title_input">Title</label>
+  <!-- <input id="title_input" type="text" name="newtask.title" [(ngModel)]="newtask.task_title" > -->
+  <input type="hidden" class="task_id"  name="newtask.task_id" [(ngModel)]="newtask.title"  >
+  <input id="title_input" type="text" name="newtask.task_title" [(ngModel)]="newtask.title" >
+
+  <label for="title_input">Description</label>
+  <input id="title_input" name="newtask.task_description" type="text" [(ngModel)]="newtask.description">
+  <button type="submit">Create</button>
+</form>
