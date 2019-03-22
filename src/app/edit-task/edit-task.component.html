@@ -1,9 +1,10 @@
-<form action="">
+<form action="" (submit)="submitEditTask()">
     <h2>Edit Task</h2>
     <label for="title_input">Title</label>
-    <input id="title_input" type="text">
-    <label for="title_input">Description</label>
-    <input id="title_input" type="text">
+      <input id="title_input" type="text" name="update_task_array.title" [(ngModel)]="update_task_array.title" >
+
+    <label for="desc_input">Description</label>
+    <input id="title_input" type="text" name="update_task_array.description" [(ngModel)]="update_task_array.description" >
     <button type="submit">Save</button>
   </form>
   

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { map, filter, catchError, mergeMap } from 'rxjs/operators';
-// import { HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject  } from 'rxjs';
+import { ItaskList } from './interface_task_list';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,59 +10,30 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class HttpService {
 
+	constructor(private _http: HttpClient){}
+	private valueObs: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
+	getAllTask(): Observable <any> {
+		return this._http.get('http://localhost:3000/task_list');
+	}
 
-  constructor(private _http: HttpClient){
+	addTask( newtask: any ): Observable <any>{
+		return this._http.post('http://localhost:3000/task_list', newtask);
+	}
 
-  }
+	deleteTasks( item ): Observable<any>{
+		return this._http.delete('http://localhost:3000/task_list/'+ item.id );
+	}
 
-  task_array: {task_id: number, title: string, description: string}[] = [
-              {
-                task_id: 0,
-                title: 'Title Testing one',
-                description:'Description Title one'
-              },
-              {
-                task_id: 1,
-                title: 'Title Testing Second',
-                description:'Description Title Second'
-              }
-          ]
+	updateTasks( task_array ): Observable<any>{
+		return this._http.put('http://localhost:3000/task_list/'+ task_array.id, task_array );
+	}
 
-  getAllTask(){
-    let observable = this._http.get('http://localhost:3000/task_list');
-        observable.subscribe();
-
-    return observable;
-  }
-  addTask( newtask: any ){
-    return this._http.post('http://localhost:3000/task_list', newtask);
-  }
-  // deleteTask( id:number ){
-  //   console.log( 'http://localhost:3000/task_list/'+ id )
-  //   this._http.delete('http://localhost:3000/task_list/'+ id);
-  // }
-
-
-
-  deleteTasks( data_item:any ){
-
-    // return  this.getAllTask().filter(item => item !== data_item);
-
-//     const httpOptions = {
-//   headers: new HttpHeaders({
-//     'Content-Type':  'application/json',
-//     'Authorization': 'my-auth-token'
-//   })
-// };
-
-
-//   const url = `http://localhost:3000/task_list/`+ id; // DELETE api/heroes/42
-//   console.log( url )
-  return this._http.delete('http://localhost:3000/task_list/0')
-    // .pipe(
-    //   catchError(this.handleError('deleteHero'))
-    // );
-}
-
+    setValue(task_array ):void {
+        this.valueObs.next(task_array);
+    }
+    
+    getValue():Observable<string> {
+        return this.valueObs;
+    }
 }
